@@ -4,7 +4,8 @@
 from flask import Flask
 from flask import jsonify
 from flask_restful import reqparse
-import sqlalchemy as db
+import sqlalchemy
+import psycopg2
 import re
 import unicodedata
 import operator
@@ -16,12 +17,11 @@ app = Flask(__name__)
     Parser 
 """
 parser = reqparse.RequestParser()
-parser.add_argument("Fid", type=int, required=True, help="Id freelance harus diisi")
-"""
-    Resouce 
-"""
+parser.add_argument("id", type=int, required=True, help="Id freelance harus diisi")
 
-
+"""
+    Resource 
+"""
 @app.errorhandler(500)
 def internal_server_error(e):
     return jsonify(error=str(e)), 500
@@ -106,11 +106,24 @@ def predict():
 
     args = parser.parse_args()
     # data = access_data(hostname, database, username, pwd, port_id)
-    test = args["Fid"]
-    engine = db.create_engine(
-        'postgresql://gmwwqbailduxgu:0de29981fdbc95fa090da8f93146087bfaa6c7eae6481bdf7a24c2d87a43e262@ec2-52-86-115-245.compute-1.amazonaws.com:5432/d1i52s060716to')
-    connection = engine.connect()
-    data = pd.read_sql("select id_freelance, commentary FROM order_review", connection)
+    test = args["id"]
+    # db_host = "ec2-52-86-115-245.compute-1.amazonaws.com"
+    # db_port = "5432"
+    # db_database = "d1i52s060716to"
+    # db_username = "gmwwqbailduxgu"
+    # db_password = "0de29981fdbc95fa090da8f93146087bfaa6c7eae6481bdf7a24c2d87a43e262"
+    db_host = "kerjamin-capstone:asia-southeast2:kerjamin-db"
+    db_port = "5432"
+    db_database = "kerjamin-postgres"
+    db_username = "postgres"
+    db_password = "qaz2plm9wsxokn"
+    db_socket_dir = "/cloudsql"
+    instance_connection_name = "kerjamin-capstone:asia-southeast2:kerjamin-db"
+    unix_socket = f'/cloudsql/{instance_connection_name}'
+
+    conn =  psycopg2.connect(database=db_database, user=db_username, password=db_password, host=unix_socket)
+
+    data = pd.read_sql("select id_freelance, commentary FROM order_review", conn)
     df = data[data['id_freelance'] == test]
     sentence = df["commentary"]
     sentence = sentence.apply(preprocessing)
@@ -152,9 +165,9 @@ def predict():
         if idx1 % 2 == 0:
             listAkhir.append(pn)
 
-    print(listAkhir)
-
-    return listAkhir, 200
+    return {
+        "data": listAkhir
+    }, 200
 
 
 """

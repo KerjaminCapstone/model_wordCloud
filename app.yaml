@@ -1,0 +1,5 @@
+service: word-cloud-api
+runtime: python37
+instance_class: F4_1G
+beta_settings:
+  cloud_sql_instances: "kerjamin-capstone:asia-southeast2:kerjamin-db"

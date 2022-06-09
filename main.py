@@ -107,11 +107,6 @@ def predict():
     args = parser.parse_args()
     # data = access_data(hostname, database, username, pwd, port_id)
     test = args["id"]
-    # db_host = "ec2-52-86-115-245.compute-1.amazonaws.com"
-    # db_port = "5432"
-    # db_database = "d1i52s060716to"
-    # db_username = "gmwwqbailduxgu"
-    # db_password = "0de29981fdbc95fa090da8f93146087bfaa6c7eae6481bdf7a24c2d87a43e262"
     db_host = "kerjamin-capstone:asia-southeast2:kerjamin-db"
     db_port = "5432"
     db_database = "kerjamin-postgres"

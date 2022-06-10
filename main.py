@@ -4,7 +4,6 @@
 from flask import Flask
 from flask import jsonify
 from flask_restful import reqparse
-import sqlalchemy
 import psycopg2
 import re
 import unicodedata
@@ -105,15 +104,12 @@ def predict():
         return str
 
     args = parser.parse_args()
-    # data = access_data(hostname, database, username, pwd, port_id)
     test = args["id"]
-    db_host = "kerjamin-capstone:asia-southeast2:kerjamin-db"
-    db_port = "5432"
-    db_database = "kerjamin-postgres"
-    db_username = "postgres"
-    db_password = "qaz2plm9wsxokn"
+    db_database = "<your-db-database>"
+    db_username = "<your-db-username>"
+    db_password = "<your-db-password>"
     db_socket_dir = "/cloudsql"
-    instance_connection_name = "kerjamin-capstone:asia-southeast2:kerjamin-db"
+    instance_connection_name = "<cloud-sql-conn-name>"
     unix_socket = f'/cloudsql/{instance_connection_name}'
 
     conn =  psycopg2.connect(database=db_database, user=db_username, password=db_password, host=unix_socket)

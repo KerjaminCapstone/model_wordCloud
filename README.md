@@ -3,7 +3,7 @@ This is a REST API to connect our machine learning process into our main api. Li
 
 ![image](https://user-images.githubusercontent.com/83566398/173227140-616f9e9a-368a-432c-8c58-07617180ac7a.png)
 
-# How to try this api?
+# How to try this api? (currently unavailable)
 You can try this api at https://word-cloud-api-dot-kerjamin-capstone.et.r.appspot.com/predict
 
 ### Header
